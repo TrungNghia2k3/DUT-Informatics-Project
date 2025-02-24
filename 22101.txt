@@ -1,0 +1,3 @@
+MSSV,Họ lót,Tên,Ngày,Tháng,Năm,Giới tính,Địa chỉ,Email
+10122001,Nguyen Trung,Nghia,02,08,2003,Nam,Da Nang,10122001@sv.dut.udn.vn
+10122002,Nguyen Huu,Tuan,02,09,2004,Nam,Quang Nam,10122002@sv.dut.udn.vn

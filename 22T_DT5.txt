@@ -1,0 +1,7 @@
+5 22 102
+Nguyen_Huu	Khoa	02 09 2004	Nam	Quang_Nam
+Vo_Van	Tuan	20 11 2004	Nam	Quang_Nam
+Ho_Quy	Ly	05 09 2004	Nu	Da_Nang
+Nguyen_Minh	Phuc	29 02 2004	Nam	Hue
+Le_Xuan	Thanh	11 11 2004	Nam	Hue
+

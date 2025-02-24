@@ -1,0 +1,5 @@
+Nguyen Van 	Anh                           11/11/2004  Nam        Ha Tinh              101220002  101220002@sv.dut.udn.vn
+Vo Van     	Binh                          11/11/2004  Nam        Da Nang              101220003  101220003@sv.dut.udn.vn
+Tran Van   	Cuong                         08/09/2004  Nam        Dong Thap            101220004  101220004@sv.dut.udn.vn
+Nguyen Thi 	Thao                          22/11/2003  Nu         TP HCM               101220005  101220005@sv.dut.udn.vn
+Nguyen Huu 	Tuan                          02/09/2004  Nam        Quang Nam            101220001  101220001@sv.dut.udn.vn
