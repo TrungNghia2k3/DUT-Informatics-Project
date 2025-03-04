@@ -12,8 +12,9 @@
 #define STUDENT_GENDER_LIMIT 5
 #define STUDENT_ADDRESS_LIMIT 30
 #define STUDENT_EMAIL_LIMIT 30
+
 #define MAX_STUDENTS 100
-#define MAX_FILENAME_LENGTH 256
+#define MAX_FILENAME_LENGTH 50
 
 /* Mảng song song lưu thông tin sinh viên */
 char studentID[MAX_STUDENTS][STUDENT_ID_LIMIT];			// ID sinh viên (tự động tăng)
@@ -46,6 +47,8 @@ void saveStudentToFile();
 void saveStudentsToFile();
 void sortStudents();
 void deleteStudent(int index);
+void deleteStudentByName();
+void deleteStudentByCode();
 void deleteStudentByNameOrStudentCode();
 int findStudentIndexByID(char *studentID);
 void searchStudent();
@@ -71,6 +74,8 @@ void swapStrings(char *a, char *b);
 void swapInts(int *a, int *b);
 void toLowerCase(char *str);
 bool containsSubstring(char *str, char *sub);
+int isValidNumber(const char *str);
+void clearInputBuffer();
 
 /* Start main */
 int main()
@@ -329,7 +334,6 @@ void sortStudents()
 	if (totalStudents <= 1)
 		return; // Không cần sắp xếp nếu danh sách trống hoặc có 1 sinh viên
 
-	sorted = 1;	  // Giả định danh sách đã sắp xếp
 	bool swapped; // Kiểm tra xem có hoán đổi nào không
 
 	for (int i = 0; i < totalStudents - 1; i++)
@@ -365,7 +369,7 @@ void sortStudents()
 	saveStudentsToFile(); // Ghi danh sách sau khi sắp xếp vào file
 }
 
-/* Xóa sinh viên khỏi mảng song song */
+/* Xóa sinh viên khỏi mảng song */
 void deleteStudent(int index)
 {
 	if (totalStudents == 0)
@@ -392,173 +396,237 @@ void deleteStudent(int index)
 	saveStudentsToFile(); // Lưu danh sách vào file sau khi xóa
 }
 
-/* Xóa sinh viên theo tên và họ lót (hoặc theo MSSV)*/
-void deleteStudentByNameOrStudentCode()
+/* Xóa sinh viên theo họ lót và tên */
+void deleteStudentByName()
 {
 	char input[50];
 	int foundIndexes[MAX_STUDENTS], foundCount = 0;
 	int choice;
 
-	while (1) // Lặp lại cho đến khi người dùng chọn thoát
+	while (1) // Lặp lại nhập nếu không tìm thấy sinh viên
 	{
-		printf("\n🔹 Chọn phương thức xóa:\n");
-		printf("✨ 1. Xóa bằng họ lót và tên\n");
+		printf("\n👉 Nhập họ lót và tên cần xóa: ");
+		fgets(input, sizeof(input), stdin);
+		input[strcspn(input, "\n")] = 0;
 
+		foundCount = 0;
+		for (int i = 0; i < totalStudents; i++)
+		{
+			char fullName[50];
+			snprintf(fullName, sizeof(fullName), "%s %s", firstName[i], lastName[i]);
+
+			if (containsSubstring(fullName, input) != NULL)
+				foundIndexes[foundCount++] = i;
+		}
+
+		if (foundCount == 0)
+		{
+			printf("❌ Không tìm thấy sinh viên nào có tên \"%s\". Vui lòng nhập lại!\n", input);
+			continue; // Quay lại nhập lại
+		}
+		break; // Thoát khỏi vòng lặp nhập nếu tìm thấy sinh viên
+	}
+
+	if (foundCount == 1) // ✅ Nếu chỉ tìm thấy 1 sinh viên, hỏi xác nhận ngay
+	{
+		int deleteIdx = foundIndexes[0];
+
+		printf("\n🔸 Chỉ tìm thấy 1 sinh viên: \"%s %s\".\n",
+			   firstName[deleteIdx], lastName[deleteIdx]);
+
+		printf("❓ Bạn có chắc chắn muốn xóa sinh viên này? (✅ 1: Có, ❌ 0: Không): ");
+		scanf("%d", &choice);
+		getchar();
+
+		if (choice == 1)
+		{
+			deleteStudent(deleteIdx);
+			saveStudentsToFile();
+			printf("✅ Đã xóa sinh viên thành công!\n");
+		}
+		else
+		{
+			printf("🔙 Hủy xóa.\n");
+		}
+		return;
+	}
+
+	while (1) // ✅ Nếu có nhiều sinh viên, yêu cầu chọn số thứ tự để xóa
+	{
+		printf("\n🔹 Danh sách sinh viên tìm thấy:\n");
+		printf("%-5s %-18s %-11s %-12s %-15s %-20s", "", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ");
 		if (generatedStudentCode)
-			printf("✨ 2. Xóa bằng MSSV\n");
+			printf(" %-12s", "MSSV");
+		if (generatedEmail)
+			printf(" %-25s", "Email");
+		printf("\n");
+		printf("---------------------------------------------------------------------------------------------\n");
 
-		printf("✨ 0. Thoát\n");
-		printf("👉 Nhập lựa chọn: ");
+		for (int i = 0; i < foundCount; i++)
+		{
+			int idx = foundIndexes[i];
+			printf("%4d. %-15s %-10s %02d/%02d/%02d  %-12s %-15s",
+				   i + 1, firstName[idx], lastName[idx],
+				   birthDay[idx], birthMonth[idx], birthYear[idx],
+				   gender[idx], address[idx]);
+
+			if (generatedStudentCode)
+				printf(" %-12s", studentCode[idx]);
+			if (generatedEmail)
+				printf(" %-25s", studentEmail[idx]);
+
+			printf("\n");
+		}
+
+		printf("\n👉 Nhập số thứ tự sinh viên muốn xóa (🔙 Nhấn 0 để quay lại): ");
 		scanf("%d", &choice);
 		getchar();
 
 		if (choice == 0)
+			return; // Quay lại nhập họ và tên
+
+		if (choice < 1 || choice > foundCount)
+		{
+			printf("❌ Số thứ tự không hợp lệ! Vui lòng nhập lại.\n");
+			continue;
+		}
+
+		int deleteIdx = foundIndexes[choice - 1];
+		printf("\n❓ Bạn có chắc chắn muốn xóa sinh viên \"%s %s\"? (✅ 1: Có, ❌ 0: Không): ",
+			   firstName[deleteIdx], lastName[deleteIdx]);
+		scanf("%d", &choice);
+		getchar();
+
+		if (choice == 0)
+		{
+			printf("🔙 Hủy xóa. Quay lại danh sách sinh viên.\n");
+			continue;
+		}
+
+		if (choice == 1)
+		{
+			deleteStudent(deleteIdx);
+			saveStudentsToFile();
+			printf("✅ Đã xóa sinh viên thành công!\n");
 			return;
+		}
 
-		if (choice == 1) // Xóa theo họ và tên
+		printf("❌ Lựa chọn không hợp lệ. Vui lòng nhập lại.\n");
+	}
+}
+
+/* Xóa sinh viên theo MSSV */
+void deleteStudentByCode()
+{
+	char input[50];
+	int choice, attempt = 0;
+
+	while (1)
+	{
+		printf("👉 Nhập MSSV cần xóa (🔙 Nhấn 0 để thoát): ");
+		fgets(input, sizeof(input), stdin);
+		input[strcspn(input, "\n")] = 0;
+
+		if (strcmp(input, "0") == 0) // Người dùng muốn thoát
 		{
-			while (1) // Lặp lại nhập nếu không tìm thấy sinh viên
+			printf("🔙 Hủy thao tác xóa sinh viên.\n");
+			return;
+		}
+
+		int index = -1;
+		for (int i = 0; i < totalStudents; i++)
+		{
+			if (strcmp(studentCode[i], input) == 0)
 			{
-				printf("👉 Nhập họ lót và tên cần xóa: ");
-				fgets(input, sizeof(input), stdin);
-				input[strcspn(input, "\n")] = 0;
-
-				foundCount = 0;
-				for (int i = 0; i < totalStudents; i++)
-				{
-					char fullName[50];
-					snprintf(fullName, sizeof(fullName), "%s %s", firstName[i], lastName[i]);
-
-					if (containsSubstring(fullName, input) != NULL)
-						foundIndexes[foundCount++] = i;
-				}
-
-				if (foundCount == 0)
-				{
-					printf("❌ Không tìm thấy sinh viên nào có tên \"%s\". Vui lòng nhập lại!\n", input);
-					continue; // Quay lại nhập lại
-				}
-				break; // Thoát khỏi vòng lặp nhập nếu tìm thấy sinh viên
-			}
-
-			while (1) // Lặp lại chọn sinh viên để xóa nếu nhập 0
-			{
-				printf("\n🔹 Danh sách sinh viên tìm thấy:\n");
-				printf("%-5s %-18s %-11s %-12s %-15s %-20s", "", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ");
-				if (generatedStudentCode)
-					printf(" %-12s", "MSSV");
-				if (generatedEmail)
-					printf(" %-25s", "Email");
-				printf("\n");
-				printf("---------------------------------------------------------------------------------------------\n");
-
-				for (int i = 0; i < foundCount; i++)
-				{
-					int idx = foundIndexes[i];
-					printf("%4d. %-15s %-10s %02d/%02d/%02d  %-12s %-15s",
-						   i + 1, firstName[idx], lastName[idx],
-						   birthDay[idx], birthMonth[idx], birthYear[idx],
-						   gender[idx], address[idx]);
-
-					if (generatedStudentCode)
-						printf(" %-12s", studentCode[idx]);
-					if (generatedEmail)
-						printf(" %-25s", studentEmail[idx]);
-
-					printf("\n");
-				}
-
-				printf("\n👉 Nhập số thứ tự sinh viên muốn xóa (🔙 Nhấn 0 để quay lại): ");
-				scanf("%d", &choice);
-				getchar();
-
-				if (choice == 0)
-					break; // Quay lại nhập họ và tên
-
-				if (choice < 1 || choice > foundCount)
-				{
-					printf("❌ Số thứ tự không hợp lệ! Vui lòng nhập lại.\n");
-					continue;
-				}
-
-				int deleteIdx = foundIndexes[choice - 1];
-
-				while (1) // Lặp lại xác nhận nếu chọn 0
-				{
-					printf("\n🔸 Bạn có chắc chắn muốn xóa sinh viên \"%s %s\"? (✅ 1: Có, ❌ 0: Không): ",
-						   firstName[deleteIdx], lastName[deleteIdx]);
-					scanf("%d", &choice);
-					getchar();
-
-					if (choice == 0)
-					{
-						printf("🔙 Hủy xóa. Quay lại danh sách sinh viên.\n");
-						break; // Quay lại danh sách sinh viên
-					}
-					if (choice == 1)
-					{
-						deleteStudent(deleteIdx);
-						saveStudentsToFile();
-						printf("✅ Đã xóa sinh viên thành công!\n");
-						return; // Thoát khỏi hàm sau khi xóa thành công
-					}
-					printf("❌ Lựa chọn không hợp lệ. Vui lòng nhập lại.\n");
-				}
+				index = i;
+				break;
 			}
 		}
-		else if (choice == 2 && generatedStudentCode) // Xóa theo MSSV
+
+		if (index == -1)
 		{
-			while (1) // Lặp lại nhập nếu không tìm thấy MSSV
+			printf("❌ Không tìm thấy sinh viên với MSSV: %s.\n", input);
+			attempt++;
+			if (attempt >= 3)
 			{
-				printf("👉 Nhập MSSV cần xóa: ");
-				fgets(input, sizeof(input), stdin);
-				input[strcspn(input, "\n")] = 0;
-
-				int index = -1;
-
-				// 🔍 Tìm sinh viên theo MSSV
-				for (int i = 0; i < totalStudents; i++)
-				{
-					if (strcmp(studentCode[i], input) == 0)
-					{
-						index = i;
-						break;
-					}
-				}
-
-				if (index == -1)
-				{
-					printf("❌ Không tìm thấy sinh viên với MSSV: %s. Vui lòng nhập lại!\n", input);
-					continue;
-				}
-
-				while (1) // Lặp lại xác nhận nếu chọn 0
-				{
-					printf("\n🔸 Bạn có chắc chắn muốn xóa sinh viên \"%s %s\"? (✅ 1: Có, ❌ 0: Không): ",
-						   firstName[index], lastName[index]);
-					scanf("%d", &choice);
-					getchar();
-
-					if (choice == 0)
-					{
-						printf("🔙 Hủy xóa. Quay lại nhập MSSV.\n");
-						break; // Quay lại nhập MSSV
-					}
-					if (choice == 1)
-					{
-						deleteStudent(index);
-						saveStudentsToFile();
-						printf("✅ Đã xóa sinh viên thành công!\n");
-						return;
-					}
-					printf("❌ Lựa chọn không hợp lệ. Vui lòng nhập lại.\n");
-				}
+				printf("🚨 Bạn đã nhập sai 3 lần. Quay lại menu chính.\n");
+				return;
 			}
+			continue;
 		}
-		else
+
+		while (1)
+		{
+			printf("\n❓ Bạn có chắc chắn muốn xóa sinh viên \"%s %s\"? (✅ 1: Có, ❌ 0: Không): ",
+				   firstName[index], lastName[index]);
+			scanf("%d", &choice);
+			getchar();
+
+			if (choice == 0)
+			{
+				printf("🔙 Hủy thao tác xóa sinh viên.\n");
+				return;
+			}
+
+			if (choice == 1)
+			{
+				deleteStudent(index);
+				saveStudentsToFile();
+				printf("✅ Đã xóa sinh viên thành công!\n");
+				return;
+			}
+
+			printf("❌ Lựa chọn không hợp lệ! Vui lòng nhập lại.\n");
+		}
+	}
+}
+
+/* Xóa sinh viên theo tên và họ lót (hoặc theo MSSV)*/
+void deleteStudentByNameOrStudentCode()
+{
+	char input[10]; // Chuỗi để đọc đầu vào
+	int choice;
+
+	// 🔹 Xóa bộ nhớ đệm trước khi vào vòng lặp
+	clearInputBuffer();
+
+	while (1)
+	{
+		printf("\n🔹 Chọn phương thức xóa:\n");
+		printf("✨ 1. Xóa bằng họ lót và tên\n");
+		if (generatedStudentCode)
+			printf("✨ 2. Xóa bằng MSSV\n");
+		printf("✨ 0. Thoát\n");
+		printf("👉 Nhập lựa chọn: ");
+
+		// Đọc đầu vào thay vì dùng scanf
+		if (!fgets(input, sizeof(input), stdin)) // Kiểm tra lỗi khi nhập
+		{
+			printf("❌ Đã xảy ra lỗi khi nhập. Vui lòng thử lại!\n");
+			continue;
+		}
+
+		input[strcspn(input, "\n")] = '\0'; // Xóa ký tự xuống dòng
+
+		if (!isValidNumber(input)) // Kiểm tra nếu nhập không phải số
 		{
 			printf("❌ Lựa chọn không hợp lệ. Vui lòng nhập lại!\n");
+			continue;
 		}
+
+		choice = atoi(input); // Chuyển chuỗi thành số nguyên
+
+		if (choice == 0)
+		{
+			printf("🔙 Hủy thao tác xóa.\n");
+			return;
+		}
+		else if (choice == 1)
+			deleteStudentByName();
+		else if (choice == 2 && generatedStudentCode)
+			deleteStudentByCode();
+		else
+			printf("❌ Lựa chọn không hợp lệ. Vui lòng nhập lại!\n");
 	}
 }
 
@@ -577,52 +645,62 @@ int findStudentIndexByID(char *studentID)
 void searchStudent()
 {
 	char input[50]; // Chứa từ khóa tìm kiếm
-	printf("\n🔍 Nhập từ khóa tìm kiếm (Họ lót và tên%s): ", generatedStudentCode ? " hoặc MSSV" : "");
-	scanf(" %[^\n]", input); // Cho phép nhập cả họ + tên có dấu cách
+	int found;		// Cờ kiểm tra có tìm thấy sinh viên không
 
-	int found = 0;
-
-	for (int i = 0; i < totalStudents; i++)
+	while (1)
 	{
-		char fullName[50]; // Ghép Họ lót + Tên
-		snprintf(fullName, sizeof(fullName), "%s %s", firstName[i], lastName[i]);
+		found = 0; // Reset biến kiểm tra mỗi lần nhập từ khóa
+		printf("\n🔍 Nhập từ khóa tìm kiếm (Họ lót và tên%s) (🔙 Nhấn 0 để thoát): ", generatedStudentCode ? " hoặc MSSV" : "");
+		scanf(" %[^\n]", input); // Cho phép nhập cả họ + tên có dấu cách
 
-		// Kiểm tra input có xuất hiện trong fullName hoặc MSSV không
-		if (containsSubstring(fullName, input) || (generatedStudentCode && containsSubstring(studentCode[i], input)))
+		if (strcmp(input, "0") == 0) // Nếu người dùng nhập 0, thoát khỏi tìm kiếm
 		{
-			if (!found) // Chỉ in tiêu đề bảng một lần nếu có kết quả
-			{
-				printf("\n🔎 Kết quả tìm kiếm:\n");
-				printf("%-5s %-18s %-11s %-12s %-15s %-20s", "ID", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ");
-				if (generatedStudentCode)
-					printf(" %-12s", "MSSV"); // Thêm MSSV nếu đã tạo
-				if (generatedEmail)
-					printf(" %-25s", "Email"); // Thêm Email nếu đã tạo
-				printf("\n");
-				printf("---------------------------------------------------------------------------------------------\n");
-			}
-
-			// In thông tin sinh viên tìm thấy
-			printf("%-5s %-15s %-10s %02d/%02d/%02d  %-12s %-15s",
-				   studentID[i], firstName[i], lastName[i],
-				   birthDay[i], birthMonth[i], birthYear[i],
-				   gender[i], address[i]);
-
-			if (generatedStudentCode)
-				printf(" %-12s", studentCode[i]); // In MSSV nếu đã tạo
-			if (generatedEmail)
-				printf(" %-25s", studentEmail[i]); // In Email nếu đã tạo
-
-			printf("\n");
-			found = 1;
+			printf("🔙 Thoát tìm kiếm.\n");
+			return;
 		}
-	}
 
-	// Nếu không tìm thấy sinh viên nào, in thông báo
-	if (!found)
-	{
-		printf("\n🔎 Kết quả tìm kiếm:\n");
-		printf("❌ Không tìm thấy sinh viên!\n");
+		for (int i = 0; i < totalStudents; i++)
+		{
+			char fullName[50]; // Ghép Họ lót + Tên
+			snprintf(fullName, sizeof(fullName), "%s %s", firstName[i], lastName[i]);
+
+			// Kiểm tra input có xuất hiện trong fullName hoặc MSSV không
+			if (containsSubstring(fullName, input) || (generatedStudentCode && containsSubstring(studentCode[i], input)))
+			{
+				if (!found) // Chỉ in tiêu đề bảng một lần nếu có kết quả
+				{
+					printf("\n🔎 Kết quả tìm kiếm:\n");
+					printf("%-5s %-18s %-11s %-12s %-15s %-20s", "ID", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ");
+					if (generatedStudentCode)
+						printf(" %-12s", "MSSV"); // Thêm MSSV nếu đã tạo
+					if (generatedEmail)
+						printf(" %-25s", "Email"); // Thêm Email nếu đã tạo
+					printf("\n");
+					printf("---------------------------------------------------------------------------------------------\n");
+				}
+
+				// In thông tin sinh viên tìm thấy
+				printf("%-5s %-15s %-10s %02d/%02d/%02d  %-12s %-15s",
+					   studentID[i], firstName[i], lastName[i],
+					   birthDay[i], birthMonth[i], birthYear[i],
+					   gender[i], address[i]);
+
+				if (generatedStudentCode)
+					printf(" %-12s", studentCode[i]); // In MSSV nếu đã tạo
+				if (generatedEmail)
+					printf(" %-25s", studentEmail[i]); // In Email nếu đã tạo
+
+				printf("\n");
+				found = 1;
+			}
+		}
+
+		// Nếu không tìm thấy sinh viên nào, yêu cầu nhập lại
+		if (!found)
+		{
+			printf("\n🔎 Kết quả tìm kiếm:");
+			printf("❌ Không tìm thấy sinh viên! Vui lòng thử lại.\n");
+		}
 	}
 }
 
@@ -858,7 +936,14 @@ void menu()
 		printf("✨ 8. Thoát file\n");
 		printf("✨ 9. Thoát\n");
 		printf("➡️  Chọn: ");
-		scanf("%d", &choice);
+
+		if (scanf("%d", &choice) != 1) // Kiểm tra nếu nhập sai
+		{
+			printf("❌ Lỗi: Vui lòng nhập số!\n");
+			while (getchar() != '\n')
+				; // Xóa bộ đệm đầu vào
+			continue;
+		}
 
 		switch (choice)
 		{
@@ -887,10 +972,8 @@ void menu()
 				printf("✅ Danh sách sinh viên đã được sắp xếp\n");
 			break;
 		case 3:
-		{
 			deleteStudentByNameOrStudentCode();
-		}
-		break;
+			break;
 		case 4:
 			searchStudent();
 			break;
@@ -906,9 +989,7 @@ void menu()
 				printf("❌ Danh sách chưa đủ %d sinh viên. Vui lòng nhập thêm!\n", MAX_STUDENTS);
 				break;
 			}
-
 			generateStudentCode();
-			// printf("✅ Mã số sinh viên đã được tạo thành công!\n");
 			break;
 		case 6:
 
@@ -1093,4 +1174,26 @@ bool containsSubstring(char *str, char *sub)
 	toLowerCase(lowerStr);
 	toLowerCase(lowerSub);
 	return strstr(lowerStr, lowerSub) != NULL; // Kiểm tra chuỗi con
+}
+
+// Kiểm tra xem chuỗi có phải là số nguyên hợp lệ không
+int isValidNumber(const char *str)
+{
+	if (str[0] == '\0') // Kiểm tra nếu chuỗi rỗng
+		return 0;
+
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i])) // Nếu có ký tự không phải số
+			return 0;
+	}
+	return 1;
+}
+
+// Hàm xóa bộ nhớ đệm stdin
+void clearInputBuffer()
+{
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF)
+		; // Đọc hết ký tự thừa
 }
