@@ -42,6 +42,7 @@ bool generatedStudentCode = 0; // Đánh dấu đã cấp mã SV chưa
 bool generatedEmail = 0;	   // Đánh dấu đã cấp email chưa
 
 /* Khai báo các hàm chính */
+
 void addStudent();
 void saveStudentToFile();
 void saveStudentsToFile();
@@ -62,6 +63,7 @@ void exitFile();
 void menu();
 
 /* Validation */
+
 int isAlphaString(const char *str);
 int isLeapYear(int year);
 int isValidDate(int day, int month, int year);
@@ -69,6 +71,7 @@ int getValidStudentCount();
 int getValidStudentIndex();
 
 /* Utilities */
+
 void capitalizeWords(char *str);
 void swapStrings(char *a, char *b);
 void swapInts(int *a, int *b);
@@ -77,14 +80,13 @@ bool containsSubstring(char *str, char *sub);
 int isValidNumber(const char *str);
 void clearInputBuffer();
 
-/* Start main */
+/* Main */
 int main()
 {
 	inputFile(); // Nhập file ban đầu
 	menu();		 // Gọi menu để thao tác với file
 	return 0;
 }
-/* End main */
 
 /* Thêm sinh viên */
 void addStudent()
@@ -1016,7 +1018,7 @@ void menu()
 	} while (choice != 9);
 }
 
-// Kiểm tra chuỗi chỉ chứa chữ cái
+/* Kiểm tra chuỗi chỉ chứa chữ cái */
 int isAlphaString(const char *str)
 {
 	for (int i = 0; str[i] != '\0'; i++)
@@ -1027,13 +1029,13 @@ int isAlphaString(const char *str)
 	return 1;
 }
 
-// Kiểm tra năm nhuận
+/* Kiểm tra năm nhuận */
 int isLeapYear(int year)
 {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-// Kiểm tra ngày hợp lệ
+/* Kiểm tra ngày hợp lệ */
 int isValidDate(int day, int month, int year)
 {
 	if (year < 1900 || year > 2024)
@@ -1048,7 +1050,7 @@ int isValidDate(int day, int month, int year)
 	return day >= 1 && day <= daysInMonth[month - 1];
 }
 
-// Kiểm tra số lượng sinh viên thêm vào
+/* Kiểm tra số lượng sinh viên thêm vào */
 int getValidStudentCount()
 {
 	int n;
@@ -1082,7 +1084,7 @@ int getValidStudentCount()
 	}
 }
 
-// Hàm viết hoa chữ cái đầu tiên của mỗi từ
+/* Hàm viết hoa chữ cái đầu tiên của mỗi từ */
 void capitalizeWords(char *str)
 {
 	int len = strlen(str);
@@ -1109,7 +1111,7 @@ void capitalizeWords(char *str)
 	}
 }
 
-// Hàm nhập và kiểm tra STT hợp lệ (3 chữ số, từ 001 đến 100)
+/* Hàm nhập và kiểm tra STT hợp lệ (3 chữ số, từ 001 đến 100) */
 int getValidStudentIndex()
 {
 	char input[10]; // Lưu chuỗi nhập vào
@@ -1141,7 +1143,7 @@ int getValidStudentIndex()
 	}
 }
 
-// Hàm hoán đổi chuỗi
+/* Hàm hoán đổi chuỗi */
 void swapStrings(char *a, char *b)
 {
 	char temp[100]; // Định nghĩa bộ nhớ tạm
@@ -1150,7 +1152,7 @@ void swapStrings(char *a, char *b)
 	strcpy(b, temp);
 }
 
-// Hàm hoán đổi số nguyên
+/* Hàm hoán đổi số nguyên */
 void swapInts(int *a, int *b)
 {
 	int temp = *a;
@@ -1158,14 +1160,14 @@ void swapInts(int *a, int *b)
 	*b = temp;
 }
 
-// Chuyển chuỗi về chữ thường (để tìm không phân biệt hoa thường)
+/* Chuyển chuỗi về chữ thường (để tìm không phân biệt hoa thường) */
 void toLowerCase(char *str)
 {
 	for (int i = 0; str[i]; i++)
 		str[i] = tolower(str[i]);
 }
 
-// Hàm kiểm tra chuỗi con (substring)
+/* Hàm kiểm tra chuỗi con (substring) */
 bool containsSubstring(char *str, char *sub)
 {
 	char lowerStr[50], lowerSub[50];
@@ -1176,7 +1178,7 @@ bool containsSubstring(char *str, char *sub)
 	return strstr(lowerStr, lowerSub) != NULL; // Kiểm tra chuỗi con
 }
 
-// Kiểm tra xem chuỗi có phải là số nguyên hợp lệ không
+/* Kiểm tra xem chuỗi có phải là số nguyên hợp lệ không */
 int isValidNumber(const char *str)
 {
 	if (str[0] == '\0') // Kiểm tra nếu chuỗi rỗng
@@ -1190,7 +1192,7 @@ int isValidNumber(const char *str)
 	return 1;
 }
 
-// Hàm xóa bộ nhớ đệm stdin
+/* Hàm xóa bộ nhớ đệm stdin */
 void clearInputBuffer()
 {
 	int c;
