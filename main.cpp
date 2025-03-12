@@ -83,8 +83,8 @@ void clearInputBuffer();
 /* Main */
 int main()
 {
-	inputFile(); // Nhập file ban đầu
-	menu();		 // Gọi menu để thao tác với file
+	// inputFile(); // Nhập file ban đầu
+	menu(); // Gọi menu để thao tác với file
 	return 0;
 }
 
@@ -133,17 +133,30 @@ void addStudent()
 	}
 
 	// Nhập ngày sinh
+	// Nhập ngày sinh
 	while (1)
 	{
+		char dateInput[11]; // Lưu trữ chuỗi nhập vào
 		printf("📅 Nhập ngày sinh (DD/MM/YYYY): ");
-		if (scanf("%d %d %d", &tempBirthDay, &tempBirthMonth, &tempBirthYear) == 3)
+
+		scanf(" %[^\n]", dateInput); // Đọc toàn bộ dòng
+
+		// Kiểm tra định dạng "DD/MM/YYYY"
+		if (sscanf(dateInput, "%d/%d/%d", &tempBirthDay, &tempBirthMonth, &tempBirthYear) != 3)
 		{
-			if (isValidDate(tempBirthDay, tempBirthMonth, tempBirthYear))
-				break;
+			printf("❌ Định dạng không hợp lệ! Hãy nhập đúng định dạng DD/MM/YYYY.\n");
+			continue; // Quay lại nhập lại
 		}
-		printf("❌ Ngày sinh không hợp lệ! Vui lòng nhập lại.\n");
-		while (getchar() != '\n')
-			;
+
+		// Kiểm tra xem ngày nhập vào có hợp lệ không
+		if (!isValidDate(tempBirthDay, tempBirthMonth, tempBirthYear))
+		{
+			printf("❌ Ngày sinh không hợp lệ! Hãy nhập ngày thực tế.\n");
+			continue; // Quay lại nhập lại
+		}
+
+		// Nếu cả hai điều kiện đúng, thoát vòng lặp
+		break;
 	}
 
 	// Nhập giới tính
@@ -227,7 +240,7 @@ void addStudent()
 	printf("✅ Đã thêm sinh viên thành công!\n");
 }
 
-/* 📝 Hàm ghi thông tin sinh viên vào file cho hàm add student */
+/* Hàm ghi thông tin sinh viên vào file cho hàm add student */
 void saveStudentToFile()
 {
 	FILE *file;
@@ -299,7 +312,7 @@ void saveStudentToFile()
 	}
 }
 
-/* 📝 Hàm ghi danh sách sinh viên vào file */
+/* Hàm ghi danh sách sinh viên vào file */
 void saveStudentsToFile()
 {
 	FILE *file = fopen(fileName, "w"); // Ghi lại toàn bộ file
@@ -774,6 +787,11 @@ void inputFile()
 	{
 
 		printf("📝 Nhập tên file cần thao tác: ");
+
+		// Xóa bộ đệm trước khi nhập để tránh lỗi nhập thừa
+		while (getchar() != '\n')
+			;
+
 		fgets(fileName, sizeof(fileName), stdin); // Đọc cả dòng để tránh lỗi bộ nhớ
 
 		// Xóa ký tự '\n' nếu có
@@ -935,8 +953,7 @@ void menu()
 		printf("✨ 5. Cấp Mã sinh viên\n");
 		printf("✨ 6. Cấp email\n");
 		printf("✨ 7. In danh sách\n");
-		printf("✨ 8. Thoát file\n");
-		printf("✨ 9. Thoát\n");
+		printf("✨ 8. Thoát\n");
 		printf("➡️  Chọn: ");
 
 		if (scanf("%d", &choice) != 1) // Kiểm tra nếu nhập sai
@@ -951,20 +968,41 @@ void menu()
 		{
 		case 1:
 		{
-			if (totalStudents == 100)
+			inputFile(); // Chọn file
+
+			char choice;
+			do
 			{
-				printf("❌ Lỗi: Đã đủ %d sinh viên!\n", MAX_STUDENTS);
-				break;
-			}
-			int n = getValidStudentCount(); // Gọi hàm kiểm tra
-			for (int i = 0; i < n; i++)
-			{
-				printf("\n👉 Nhập thông tin sinh viên %d:\n", i + 1);
-				addStudent();
-			}
+				if (totalStudents == MAX_STUDENTS) // Kiểm tra lại số lượng sinh viên
+				{
+					printf("❌ Không thể thêm, danh sách đã đủ %d sinh viên!\n", MAX_STUDENTS);
+					break;
+				}
+
+				addStudent(); // Gọi hàm thêm sinh viên
+
+				// Hỏi người dùng có muốn tiếp tục hay không
+				while (1)
+				{
+					printf("📌 Bạn có muốn tiếp tục thêm sinh viên không? (Y/N): ");
+					scanf(" %c", &choice);
+
+					// Xóa bộ đệm ngay sau khi nhập, bất kể đúng hay sai
+					while (getchar() != '\n')
+						;
+
+					// Chấp nhận cả chữ hoa và chữ thường
+					if (choice == 'Y' || choice == 'y' || choice == 'N' || choice == 'n')
+						break; // Nhập đúng thì thoát vòng lặp hỏi lại
+					else
+						printf("❌ Lựa chọn không hợp lệ! Vui lòng nhập lại.\n");
+				}
+			} while (choice == 'Y' || choice == 'y'); // Tiếp tục nếu nhập Y/y
 			break;
 		}
 		case 2:
+			inputFile(); // Chọn file
+
 			if (!sorted) // Nếu danh sách chưa sắp xếp
 			{
 				sortStudents();
@@ -974,9 +1012,11 @@ void menu()
 				printf("✅ Danh sách sinh viên đã được sắp xếp\n");
 			break;
 		case 3:
+			inputFile(); // Chọn file
 			deleteStudentByNameOrStudentCode();
 			break;
 		case 4:
+			inputFile(); // Chọn file
 			searchStudent();
 			break;
 		case 5:
@@ -1004,18 +1044,16 @@ void menu()
 				printf("❌ Chưa cấp mã sinh viên. Không thể tạo email!\n");
 			break;
 		case 7:
+			inputFile(); // Chọn file
 			printStudents();
 			break;
 		case 8:
-			exitFile();
-			break;
-		case 9:
 			printf("🔚 Thoát chương trình.\n");
 			break;
 		default:
 			printf("❌ Lựa chọn không hợp lệ.\n");
 		}
-	} while (choice != 9);
+	} while (choice != 8);
 }
 
 /* Kiểm tra chuỗi chỉ chứa chữ cái */
