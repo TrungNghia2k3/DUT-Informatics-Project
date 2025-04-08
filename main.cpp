@@ -1006,10 +1006,10 @@ void menu()
 			if (!sorted) // Nếu danh sách chưa sắp xếp
 			{
 				sortStudents();
-				printf("✅ Danh sách sinh viên đã được sắp xếp\n");
+				printf("✅ Đã sắp xếp thành công\n");
 			}
 			else
-				printf("✅ Danh sách sinh viên đã được sắp xếp\n");
+				printf("✅ Đã sắp xếp rồi, không cần sắp xếp nữa\n");
 			break;
 		case 3:
 			inputFile(); // Chọn file
