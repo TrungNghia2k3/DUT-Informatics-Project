@@ -133,7 +133,6 @@ void addStudent()
 	}
 
 	// Nhập ngày sinh
-	// Nhập ngày sinh
 	while (1)
 	{
 		char dateInput[11]; // Lưu trữ chuỗi nhập vào
@@ -191,7 +190,7 @@ void addStudent()
 		printf("❌ Địa chỉ không được để trống! Vui lòng nhập lại.\n");
 	}
 
-	int pos = totalStudents;
+	int pos = totalStudents; // Vị trí chèn sẽ mặc định là cuối danh sách
 
 	// 🔥 Xác định vị trí chèn nếu danh sách đã được sắp xếp
 	if (sorted == 1)
@@ -359,7 +358,8 @@ void sortStudents()
 		{
 			// So sánh theo lastName trước, nếu trùng thì so sánh firstName
 			if (strcmp(lastName[j], lastName[j + 1]) > 0 ||
-				(strcmp(lastName[j], lastName[j + 1]) == 0 && strcmp(firstName[j], firstName[j + 1]) > 0))
+				(strcmp(lastName[j], lastName[j + 1]) == 0 &&
+				 strcmp(firstName[j], firstName[j + 1]) > 0))
 			{
 				// Hoán đổi thông tin sinh viên
 				swapStrings(firstName[j], firstName[j + 1]);
@@ -602,9 +602,6 @@ void deleteStudentByNameOrStudentCode()
 	char input[10]; // Chuỗi để đọc đầu vào
 	int choice;
 
-	// 🔹 Xóa bộ nhớ đệm trước khi vào vòng lặp
-	clearInputBuffer();
-
 	while (1)
 	{
 		printf("\n🔹 Chọn phương thức xóa:\n");
@@ -680,7 +677,9 @@ void searchStudent()
 			snprintf(fullName, sizeof(fullName), "%s %s", firstName[i], lastName[i]);
 
 			// Kiểm tra input có xuất hiện trong fullName hoặc MSSV không
-			if (containsSubstring(fullName, input) || (generatedStudentCode && containsSubstring(studentCode[i], input)))
+			if (containsSubstring(fullName, input) ||
+				(generatedStudentCode &&
+				 containsSubstring(studentCode[i], input)))
 			{
 				if (!found) // Chỉ in tiêu đề bảng một lần nếu có kết quả
 				{

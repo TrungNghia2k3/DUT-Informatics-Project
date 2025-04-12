@@ -231,13 +231,14 @@ void themsinhvien(SV &sv, int i)
 }
 
 void sapxepsinhvien(SV sv[], int n)
-{								 // bubble
-	for (int i = 1; i <= n; i++) // sap xep ho lot
+{
+	// sap xep ho lot
+	for (int i = 1; i <= n; i++)
 		for (int j = i + 1; j <= n; j++)
 			if (strcmp(sv[i].firstname, sv[j].firstname) > 0)
 				structswap(&sv[i], &sv[j]);
-
-	for (int i = 1; i <= n; i++) // sap xep ten
+	// sap xep ten
+	for (int i = 1; i <= n; i++)
 		for (int j = i + 1; j <= n; j++)
 			if (strcmp(sv[i].lastname, sv[j].lastname) > 0)
 				structswap(&sv[i], &sv[j]);
