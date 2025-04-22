@@ -83,7 +83,18 @@ void clearInputBuffer();
 /* Main */
 int main()
 {
-	// inputFile(); // Nhập file ban đầu
+	printf(" /\\_/\\      \n");
+    printf("( o.o )-------------------------------------------------------------------------------------------------------------+\n");
+    printf(" > ^ <                                                ĐỒ ÁN TIN HỌC                                                 |\n");
+    printf(" |                                              ỨNG DỤNG QUẢN LÝ SINH VIÊN                                          |\n");
+    printf(" +------------------------------------------------------------------------------------------------------------------+\n");
+    printf(" |                                                     THÀNH VIÊN                                                   |\n");
+    printf(" |                                              1. NGUYỄN TRUNG NGHĨA                                               |\n");
+    printf(" |                                              2. TRƯƠNG TOÀN MINH NHẬT                                            |\n");
+    printf(" |                                              3. VÕ UYÊN THƯ                                                      |\n");
+    printf(" |                                              4. TRƯƠNG HOÀNG MỸ ÁI                                               |\n");
+    printf(" +------------------------------------------------------------------------------------------------------------------+\n");
+
 	menu(); // Gọi menu để thao tác với file
 	return 0;
 }
