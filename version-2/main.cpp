@@ -84,16 +84,16 @@ void clearInputBuffer();
 int main()
 {
 	printf(" /\\_/\\      \n");
-    printf("( o.o )-------------------------------------------------------------------------------------------------------------+\n");
-    printf(" > ^ <                                                ĐỒ ÁN TIN HỌC                                                 |\n");
-    printf(" |                                              ỨNG DỤNG QUẢN LÝ SINH VIÊN                                          |\n");
-    printf(" +------------------------------------------------------------------------------------------------------------------+\n");
-    printf(" |                                                     THÀNH VIÊN                                                   |\n");
-    printf(" |                                              1. NGUYỄN TRUNG NGHĨA                                               |\n");
-    printf(" |                                              2. TRƯƠNG TOÀN MINH NHẬT                                            |\n");
-    printf(" |                                              3. VÕ UYÊN THƯ                                                      |\n");
-    printf(" |                                              4. TRƯƠNG HOÀNG MỸ ÁI                                               |\n");
-    printf(" +------------------------------------------------------------------------------------------------------------------+\n");
+	printf("( o.o )-------------------------------------------------------------------------------------------------------------+\n");
+	printf(" > ^ <                                                ĐỒ ÁN TIN HỌC                                                 |\n");
+	printf(" |                                              ỨNG DỤNG QUẢN LÝ SINH VIÊN                                          |\n");
+	printf(" +------------------------------------------------------------------------------------------------------------------+\n");
+	printf(" |                                                     THÀNH VIÊN                                                   |\n");
+	printf(" |                                              1. NGUYỄN TRUNG NGHĨA                                               |\n");
+	printf(" |                                              2. TRƯƠNG TOÀN MINH NHẬT                                            |\n");
+	printf(" |                                              3. VÕ UYÊN THƯ                                                      |\n");
+	printf(" |                                              4. TRƯƠNG HOÀNG MỸ ÁI                                               |\n");
+	printf(" +------------------------------------------------------------------------------------------------------------------+\n");
 
 	menu(); // Gọi menu để thao tác với file
 	return 0;
@@ -203,7 +203,7 @@ void addStudent()
 
 	int pos = totalStudents; // Vị trí chèn sẽ mặc định là cuối danh sách
 
-	// 🔥 Xác định vị trí chèn nếu danh sách đã được sắp xếp
+	// Xác định vị trí chèn nếu danh sách đã được sắp xếp
 	if (sorted == 1)
 	{
 		for (int i = 0; i < totalStudents; i++)
@@ -286,7 +286,7 @@ void saveStudentToFile()
 	}
 	else
 	{
-		// 2️⃣ Mở file với "r+" để cập nhật số lượng sinh viên
+		// Mở file với "r+" để cập nhật số lượng sinh viên
 		file = fopen(fileName, "r+");
 		if (file == NULL)
 		{
@@ -294,17 +294,17 @@ void saveStudentToFile()
 			return;
 		}
 
-		// Ghi lại dòng đầu tiên (niên khóa, mã ngành)
-		fprintf(file, "%d,%d\n", academicYear, majorCode);
+		// Bỏ qua dòng đầu tiên (niên khóa, mã ngành)
+		char line[256];
+		fgets(line, sizeof(line), file); // bỏ dòng 1
 
-		// Ghi lại số lượng sinh viên mới
+		// Ghi đè dòng thứ 2
+		fseek(file, ftell(file), SEEK_SET); // đảm bảo vị trí con trỏ chính xác
 		fprintf(file, "%d\n", totalStudents);
 
-		// Giữ nguyên trạng thái sắp xếp
-		fprintf(file, "%d\n", sorted);
 		fclose(file);
 
-		// 3️⃣ Mở file với "a" để ghi thêm sinh viên mới vào cuối
+		// Mở file với "a" để ghi thêm sinh viên mới vào cuối
 		file = fopen(fileName, "a");
 		if (file == NULL)
 		{
