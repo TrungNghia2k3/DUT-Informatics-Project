@@ -1,52 +1,52 @@
 MSSV,Họ lót,Tên,Ngày,Tháng,Năm,Giới tính,Địa chỉ,Email
 12321001,Hoang Huu,An,09,12,2001,Nam,Can Tho,12321001@sv.dut.udn.vn
-12321002,Pham Xuan,An,06,09,2003,Nam,Hai Phong,12321002@sv.dut.udn.vn
-12321003,Pham Xuan,An,02,05,2000,Nam,Dong Thap,12321003@sv.dut.udn.vn
-12321004,Bui Thanh,Anh,24,08,2003,Nu,An Giang,12321004@sv.dut.udn.vn
-12321005,Do Kim,Anh,10,11,2002,Nu,Ha Tinh,12321005@sv.dut.udn.vn
-12321006,Phan Thanh,Anh,28,07,2001,Nu,Ha Noi,12321006@sv.dut.udn.vn
-12321007,Do Gia,Binh,11,12,2005,Nam,Ho Chi Minh,12321007@sv.dut.udn.vn
-12321008,Do Thanh,Binh,28,01,2004,Nam,Ha Noi,12321008@sv.dut.udn.vn
-12321009,Do Van,Binh,15,07,2003,Nam,Ha Noi,12321009@sv.dut.udn.vn
-12321010,Hoang Huu,Binh,28,05,2001,Nam,Dong Thap,12321010@sv.dut.udn.vn
-12321011,Hoang Van,Binh,18,07,2004,Nam,Bac Giang,12321011@sv.dut.udn.vn
-12321012,Tran Minh,Binh,24,03,2000,Nam,Can Tho,12321012@sv.dut.udn.vn
-12321013,Vu Van,Binh,28,07,2004,Nam,Da Nang,12321013@sv.dut.udn.vn
-12321014,Do Hoai,Chi,17,10,2002,Nu,Bac Giang,12321014@sv.dut.udn.vn
-12321015,Le Kim,Chi,08,12,2005,Nu,Dong Thap,12321015@sv.dut.udn.vn
-12321016,Le Lan,Chi,03,11,2001,Nu,Ho Chi Minh,12321016@sv.dut.udn.vn
-12321017,Nguyen Thi,Chi,07,10,2002,Nu,Dong Thap,12321017@sv.dut.udn.vn
-12321018,Tran Thi,Chi,23,10,2000,Nu,Bac Giang,12321018@sv.dut.udn.vn
-12321019,Hoang Thanh,Cuong,13,03,2004,Nam,Ha Tinh,12321019@sv.dut.udn.vn
-12321020,Dang Xuan,Duc,21,10,2001,Nam,Ha Tinh,12321020@sv.dut.udn.vn
-12321021,Do Minh,Duc,28,02,2003,Nam,Hai Phong,12321021@sv.dut.udn.vn
-12321022,Dang Mai,Dung,06,02,2004,Nu,Dong Thap,12321022@sv.dut.udn.vn
-12321023,Hoang Kim,Dung,01,09,2004,Nu,Quang Nam,12321023@sv.dut.udn.vn
-12321024,Le Hoai,Dung,08,04,2005,Nu,Quang Nam,12321024@sv.dut.udn.vn
-12321025,Nguyen Dieu,Dung,26,12,2001,Nu,Hai Phong,12321025@sv.dut.udn.vn
-12321026,Nguyen Ha,Dung,17,07,2001,Nu,Ha Noi,12321026@sv.dut.udn.vn
-12321027,Pham Bao,Dung,27,05,2002,Nu,Can Tho,12321027@sv.dut.udn.vn
-12321028,Bui Ha,Hien,22,01,2002,Nu,Quang Nam,12321028@sv.dut.udn.vn
-12321029,Le Dieu,Hien,07,07,2001,Nu,Hai Phong,12321029@sv.dut.udn.vn
-12321030,Pham Dieu,Hien,10,02,2002,Nu,Dong Thap,12321030@sv.dut.udn.vn
-12321031,Pham Thi,Hien,25,03,2005,Nu,Ho Chi Minh,12321031@sv.dut.udn.vn
-12321032,Dang Tuan,Khang,13,08,2002,Nam,Bac Giang,12321032@sv.dut.udn.vn
-12321033,Le Quoc,Khang,09,11,2000,Nam,Ho Chi Minh,12321033@sv.dut.udn.vn
-12321034,Bui Dieu,Linh,03,09,2005,Nu,Can Tho,12321034@sv.dut.udn.vn
-12321035,Bui Lan,Linh,13,01,2005,Nu,Hai Phong,12321035@sv.dut.udn.vn
-12321036,Dang Tuan,Linh,02,10,2001,Nam,Quang Nam,12321036@sv.dut.udn.vn
-12321037,Do Bao,Linh,17,07,2001,Nu,Quang Nam,12321037@sv.dut.udn.vn
-12321038,Hoang Thi,Linh,02,03,2003,Nu,Can Tho,12321038@sv.dut.udn.vn
-12321039,Nguyen Ha,Linh,09,12,2001,Nu,Ha Noi,12321039@sv.dut.udn.vn
-12321040,Phan Tuan,Linh,03,10,2004,Nam,Quang Nam,12321040@sv.dut.udn.vn
-12321041,Tran Ha,Linh,15,08,2002,Nu,An Giang,12321041@sv.dut.udn.vn
-12321042,Tran Xuan,Linh,01,12,2001,Nam,An Giang,12321042@sv.dut.udn.vn
-12321043,Tran Xuan,Linh,28,11,2003,Nam,Ha Noi,12321043@sv.dut.udn.vn
-12321044,Nguyen Ha,My,16,07,2005,Nu,Dong Thap,12321044@sv.dut.udn.vn
-12321045,Do Van,Nghia,18,02,2003,Nam,Hai Phong,12321045@sv.dut.udn.vn
-12321046,Nguyen Quoc,Nghia,04,09,2004,Nam,Quang Nam,12321046@sv.dut.udn.vn
-12321047,Nguyen Quoc,Nghia,05,07,2002,Nam,Dong Thap,12321047@sv.dut.udn.vn
-12321048,Nguyen Trung,Nghia,02,08,2003,Nam,Da Nang,12321048@sv.dut.udn.vn
+12321002,Nguyen Quoc,An,03,12,2001,Nam,Can Tho,12321002@sv.dut.udn.vn
+12321003,Pham Xuan,An,06,09,2003,Nam,Hai Phong,12321003@sv.dut.udn.vn
+12321004,Pham Xuan,An,02,05,2000,Nam,Dong Thap,12321004@sv.dut.udn.vn
+12321005,Bui Thanh,Anh,24,08,2003,Nu,An Giang,12321005@sv.dut.udn.vn
+12321006,Do Kim,Anh,10,11,2002,Nu,Ha Tinh,12321006@sv.dut.udn.vn
+12321007,Phan Thanh,Anh,28,07,2001,Nu,Ha Noi,12321007@sv.dut.udn.vn
+12321008,Do Gia,Binh,11,12,2005,Nam,Ho Chi Minh,12321008@sv.dut.udn.vn
+12321009,Do Thanh,Binh,28,01,2004,Nam,Ha Noi,12321009@sv.dut.udn.vn
+12321010,Do Van,Binh,15,07,2003,Nam,Ha Noi,12321010@sv.dut.udn.vn
+12321011,Hoang Huu,Binh,28,05,2001,Nam,Dong Thap,12321011@sv.dut.udn.vn
+12321012,Hoang Van,Binh,18,07,2004,Nam,Bac Giang,12321012@sv.dut.udn.vn
+12321013,Tran Minh,Binh,24,03,2000,Nam,Can Tho,12321013@sv.dut.udn.vn
+12321014,Vu Van,Binh,28,07,2004,Nam,Da Nang,12321014@sv.dut.udn.vn
+12321015,Do Hoai,Chi,17,10,2002,Nu,Bac Giang,12321015@sv.dut.udn.vn
+12321016,Le Kim,Chi,08,12,2005,Nu,Dong Thap,12321016@sv.dut.udn.vn
+12321017,Le Lan,Chi,03,11,2001,Nu,Ho Chi Minh,12321017@sv.dut.udn.vn
+12321018,Nguyen Thi,Chi,07,10,2002,Nu,Dong Thap,12321018@sv.dut.udn.vn
+12321019,Tran Thi,Chi,23,10,2000,Nu,Bac Giang,12321019@sv.dut.udn.vn
+12321020,Hoang Thanh,Cuong,13,03,2004,Nam,Ha Tinh,12321020@sv.dut.udn.vn
+12321021,Dang Xuan,Duc,21,10,2001,Nam,Ha Tinh,12321021@sv.dut.udn.vn
+12321022,Do Minh,Duc,28,02,2003,Nam,Hai Phong,12321022@sv.dut.udn.vn
+12321023,Dang Mai,Dung,06,02,2004,Nu,Dong Thap,12321023@sv.dut.udn.vn
+12321024,Hoang Kim,Dung,01,09,2004,Nu,Quang Nam,12321024@sv.dut.udn.vn
+12321025,Le Hoai,Dung,08,04,2005,Nu,Quang Nam,12321025@sv.dut.udn.vn
+12321026,Nguyen Dieu,Dung,26,12,2001,Nu,Hai Phong,12321026@sv.dut.udn.vn
+12321027,Nguyen Ha,Dung,17,07,2001,Nu,Ha Noi,12321027@sv.dut.udn.vn
+12321028,Pham Bao,Dung,27,05,2002,Nu,Can Tho,12321028@sv.dut.udn.vn
+12321029,Bui Ha,Hien,22,01,2002,Nu,Quang Nam,12321029@sv.dut.udn.vn
+12321030,Le Dieu,Hien,07,07,2001,Nu,Hai Phong,12321030@sv.dut.udn.vn
+12321031,Pham Dieu,Hien,10,02,2002,Nu,Dong Thap,12321031@sv.dut.udn.vn
+12321032,Pham Thi,Hien,25,03,2005,Nu,Ho Chi Minh,12321032@sv.dut.udn.vn
+12321033,Dang Tuan,Khang,13,08,2002,Nam,Bac Giang,12321033@sv.dut.udn.vn
+12321034,Le Quoc,Khang,09,11,2000,Nam,Ho Chi Minh,12321034@sv.dut.udn.vn
+12321035,Bui Dieu,Linh,03,09,2005,Nu,Can Tho,12321035@sv.dut.udn.vn
+12321036,Bui Lan,Linh,13,01,2005,Nu,Hai Phong,12321036@sv.dut.udn.vn
+12321037,Dang Tuan,Linh,02,10,2001,Nam,Quang Nam,12321037@sv.dut.udn.vn
+12321038,Do Bao,Linh,17,07,2001,Nu,Quang Nam,12321038@sv.dut.udn.vn
+12321039,Hoang Thi,Linh,02,03,2003,Nu,Can Tho,12321039@sv.dut.udn.vn
+12321040,Nguyen Ha,Linh,09,12,2001,Nu,Ha Noi,12321040@sv.dut.udn.vn
+12321041,Phan Tuan,Linh,03,10,2004,Nam,Quang Nam,12321041@sv.dut.udn.vn
+12321042,Tran Ha,Linh,15,08,2002,Nu,An Giang,12321042@sv.dut.udn.vn
+12321043,Tran Xuan,Linh,01,12,2001,Nam,An Giang,12321043@sv.dut.udn.vn
+12321044,Tran Xuan,Linh,28,11,2003,Nam,Ha Noi,12321044@sv.dut.udn.vn
+12321045,Nguyen Ha,My,16,07,2005,Nu,Dong Thap,12321045@sv.dut.udn.vn
+12321046,Do Van,Nghia,18,02,2003,Nam,Hai Phong,12321046@sv.dut.udn.vn
+12321047,Nguyen Quoc,Nghia,04,09,2004,Nam,Quang Nam,12321047@sv.dut.udn.vn
+12321048,Nguyen Quoc,Nghia,05,07,2002,Nam,Dong Thap,12321048@sv.dut.udn.vn
 12321049,Nguyen Xuan,Nghia,27,01,2000,Nam,An Giang,12321049@sv.dut.udn.vn
 12321050,Vu Dinh,Nghia,24,02,2001,Nam,Dong Thap,12321050@sv.dut.udn.vn
 12321051,Do Kim,Nhung,23,09,2001,Nu,Can Tho,12321051@sv.dut.udn.vn

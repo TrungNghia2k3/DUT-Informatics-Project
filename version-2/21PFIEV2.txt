@@ -1,6 +1,7 @@
 21,123
 5
 0
+0
 001,Nguyen Huu,Tuan,02,09,2004,Nam,Quang Nam
 002,Nguyen Van,Anh,11,11,2004,Nam,Ha Tinh
 003,Vo Van,Binh,11,11,2004,Nam,Da Nang

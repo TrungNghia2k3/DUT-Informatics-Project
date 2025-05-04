@@ -271,8 +271,11 @@ void saveStudentToFile()
 		// Ghi tổng số sinh viên đã cập nhật
 		fprintf(file, "%d\n", totalStudents);
 
-		// Ghi trạng thái đã sắp xếp
+		// Ghi trạng thái đã sắp xếp chưa?
 		fprintf(file, "%d\n", sorted);
+
+		// Ghi trạng thái đã cấp mã sinh viên chưa?
+		fprintf(file, "%d\n", generatedStudentCode);
 
 		// Ghi toàn bộ danh sách sinh viên
 		for (int i = 0; i < totalStudents; i++)
@@ -341,6 +344,9 @@ void saveStudentsToFile()
 
 	// Ghi trạng thái đã sắp xếp
 	fprintf(file, "%d\n", sorted);
+
+	// Ghi trạng thái đã cấp mã sinh viên
+	fprintf(file, "%d\n", 0);
 
 	// Ghi toàn bộ danh sách sinh viên
 	for (int i = 0; i < totalStudents; i++)
@@ -732,13 +738,56 @@ void searchStudent()
 /* Cấp MSSV */
 void generateStudentCode()
 {
-	for (int i = 0; i < totalStudents; i++)
-	{
-		sprintf(studentCode[i], "%03d%02d%03d", majorCode, academicYear, i + 1);
-	}
+	FILE *file;
+	char line[256];
 
-	generatedStudentCode = 1;
-	printf("✅ Đã tạo mã sinh viên thành công!\n");
+	// Nếu chưa cấp mã sinh viên (generatedStudentCode == 0), cấp mã và ghi trạng thái vào file
+	if (generatedStudentCode == 0)
+	{
+		// Cấp MSSV cho sinh viên
+		for (int i = 0; i < totalStudents; i++)
+		{
+			sprintf(studentCode[i], "%03d%02d%03d", majorCode, academicYear, i + 1);
+		}
+
+		// Cập nhật trạng thái đã cấp mã sinh viên
+		generatedStudentCode = 1;
+
+		// Mở file với "r+" để cập nhật trạng thái đã cấp mã sinh viên
+		file = fopen(fileName, "r+");
+		if (file == NULL)
+		{
+			printf("❌ Không thể mở file để cập nhật trạng thái đã cấp mã sinh viên!\n");
+			return;
+		}
+
+		// Bỏ qua ba dòng đầu tiên (niên khóa, mã ngành)
+		for (int i = 0; i < 3; i++)
+		{
+			fgets(line, sizeof(line), file); // bỏ qua ba dòng đầu
+		}
+
+		// Đảm bảo con trỏ tệp ở đúng vị trí để ghi đè dòng thứ 4
+		fseek(file, ftell(file), SEEK_SET);
+
+		// Ghi đè dòng thứ 4 với trạng thái đã cấp mã sinh viên
+		fprintf(file, "%d\n", generatedStudentCode);
+
+		// Đóng file sau khi thao tác xong
+		fclose(file);
+
+		printf("✅ Đã tạo mã sinh viên thành công và cập nhật trạng thái!\n");
+	}
+	else
+	{
+		// Nếu đã cấp mã sinh viên, chỉ cần cấp mã cho các sinh viên mới
+		for (int i = 0; i < totalStudents; i++)
+		{
+			sprintf(studentCode[i], "%03d%02d%03d", majorCode, academicYear, i + 1);
+		}
+
+		printf("✅ Đã tạo mã số sinh viên rồi, không cần tại nữa\n");
+	}
 };
 
 /* Cấp email */
@@ -761,7 +810,7 @@ void printStudents()
 	printf("   🏫 Niên khóa: %d\n", academicYear);
 	printf("   📚 Mã ngành: %d\n", majorCode);
 	printf("   🔄 Đã sắp xếp: %s\n", sorted ? "✅ Có" : "❌ Chưa");
-
+	printf("   🎓 Đã cấp mã sinh viên: %s\n", generatedStudentCode ? "✅ Có" : "❌ Chưa");
 	// In tiêu đề bảng
 	printf("%-5s %-18s %-11s %-12s %-15s %-20s", "ID", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ");
 	if (generatedStudentCode)
@@ -888,6 +937,14 @@ bool readFile(const char *filename)
 		return false;
 	}
 
+	// Đọc dòng 4: Trạng thái đã tạo MSSV
+	if (fscanf(file, "%d\n", &generatedStudentCode) != 1)
+	{
+		printf("❌ Lỗi khi đọc trạng thái đã tạo MSSV!\n");
+		fclose(file);
+		return false;
+	}
+
 	// Đọc danh sách sinh viên
 	for (int i = 0; i < totalStudents; i++)
 	{
@@ -900,6 +957,12 @@ bool readFile(const char *filename)
 			fclose(file);
 			return false;
 		}
+	}
+
+	// Nếu trạng thái đã tạo MSSV là 1, thì đọc mã sinh viên từ file và cấp mã sinh viên
+	if (generatedStudentCode == 1)
+	{
+		generateStudentCode();
 	}
 
 	fclose(file);
@@ -1012,7 +1075,6 @@ void menu()
 		}
 		case 2:
 			inputFile(); // Chọn file
-
 			if (!sorted) // Nếu danh sách chưa sắp xếp
 			{
 				sortStudents();
@@ -1030,6 +1092,7 @@ void menu()
 			searchStudent();
 			break;
 		case 5:
+			inputFile(); // Chọn file
 			if (!sorted)
 			{
 				printf("❌ Danh sách chưa được sắp xếp. Vui lòng sắp xếp trước!\n");
@@ -1044,7 +1107,7 @@ void menu()
 			generateStudentCode();
 			break;
 		case 6:
-
+			inputFile(); // Chọn file
 			if (generatedStudentCode)
 			{
 				generateEmail();

@@ -1,6 +1,7 @@
 21,123
 100
 0
+0
 001,Pham Ha,Quyen,01,03,2005,Nu,Ho Chi Minh
 002,Vu Hoai,Yen,13,05,2002,Nu,Hai Phong
 003,Vu Van,Binh,28,07,2004,Nam,Da Nang
