@@ -785,8 +785,6 @@ void generateStudentCode()
 		{
 			sprintf(studentCode[i], "%03d%02d%03d", majorCode, academicYear, i + 1);
 		}
-
-		printf("✅ Đã tạo mã số sinh viên rồi, không cần tại nữa\n");
 	}
 };
 
@@ -846,10 +844,6 @@ void inputFile()
 	{
 
 		printf("📝 Nhập tên file cần thao tác: ");
-
-		// Xóa bộ đệm trước khi nhập để tránh lỗi nhập thừa
-		while (getchar() != '\n')
-			;
 
 		fgets(fileName, sizeof(fileName), stdin); // Đọc cả dòng để tránh lỗi bộ nhớ
 
@@ -1037,6 +1031,10 @@ void menu()
 			continue;
 		}
 
+		// Xóa ký tự '\n' sau khi scanf đúng
+		while (getchar() != '\n')
+			;
+
 		switch (choice)
 		{
 		case 1:
@@ -1104,6 +1102,13 @@ void menu()
 				printf("❌ Danh sách chưa đủ %d sinh viên. Vui lòng nhập thêm!\n", MAX_STUDENTS);
 				break;
 			}
+
+			if (generatedStudentCode)
+			{
+				printf("✅ Đã cấp mã sinh viên rồi, không cần cấp lại!\n");
+				break;
+			}
+
 			generateStudentCode();
 			break;
 		case 6:
